@@ -10,38 +10,32 @@ const Statisticline = ({ value, text }) => (
 );
 
 const Statistics = ({ good, neutral, bad }) => {
-  if (good + neutral + bad > 0) {
-    return (
-      <div>
-        <h1>statistics</h1>
-        <table>
-          <tbody>
-            <Statisticline value={good} text="good" />
-            <Statisticline value={neutral} text="neutral" />
-            <Statisticline value={bad} text="bad" />
-            <Statisticline value={good + neutral + bad} text="total" />
-            <Statisticline
-              value={
-                (good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad)
-              }
-              text="average"
-            />
-            <Statisticline
-              value={(good / (good + neutral + bad)) * 100}
-              text="positive"
-            />
-          </tbody>
-        </table>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <h1>statistics</h1>
-        <p>No feedback given</p>
-      </div>
-    );
-  }
+  return good + neutral + bad > 0 ? (
+    <div>
+      <h1>statistics</h1>
+      <table>
+        <tbody>
+          <Statisticline value={good} text="good" />
+          <Statisticline value={neutral} text="neutral" />
+          <Statisticline value={bad} text="bad" />
+          <Statisticline value={good + neutral + bad} text="total" />
+          <Statisticline
+            value={(good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad)}
+            text="average"
+          />
+          <Statisticline
+            value={(good / (good + neutral + bad)) * 100}
+            text="positive"
+          />
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <div>
+      <h1>statistics</h1>
+      <p>No feedback given</p>
+    </div>
+  );
 };
 
 const App = () => {
