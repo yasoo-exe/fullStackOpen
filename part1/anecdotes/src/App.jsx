@@ -37,11 +37,12 @@ const App = () => {
       <Button onSmash={randomQuote} text="next quote >>" />
       <h1>Anecdote with most votes</h1>
       <p style={{ color: "blue" }}>
-        <i>{anecdotes[votes.indexOf(Math.max(...votes))]}</i>
+        <i>
+          {Math.max(...votes) > 0 &&
+            anecdotes[votes.indexOf(Math.max(...votes))]}
+        </i>
       </p>
-      <p>
-        has <strong>{Math.max(...votes)}</strong> votes
-      </p>
+      <p>{Math.max(...votes) > 0 && `has ${Math.max(...votes)} votes`}</p>
     </>
   );
 };
