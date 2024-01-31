@@ -1,7 +1,7 @@
 # Exercise# 0.4
 ## Depiction of note creation process
 
- ```
+ ```mermaid
  sequenceDiagram
     participant browser
     participant server
