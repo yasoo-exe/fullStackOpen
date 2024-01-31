@@ -1,2 +1,2 @@
-# fullStackOpen
-A repo to submit exercises for the fullStackOpen course.
+# Part 1
+## Directory for submitting exercises of part 1 of the course
