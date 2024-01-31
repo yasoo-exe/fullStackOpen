@@ -1,9 +1,7 @@
 # Exercise# 0.4
 ## Depiction of note creation process
 
-
-```
-    sequenceDiagram
+ ```sequenceDiagram
     participant browser
     participant server
 
@@ -30,5 +28,4 @@
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
     server-->>browser: JSON data
-    deactivate server
-```
+    deactivate server```
