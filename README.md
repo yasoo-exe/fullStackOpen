@@ -1,2 +1,3 @@
-# Part 1
-## Directory for submitting exercises of part 1 of the course
+# fullStackOpen
+## A repo for submitting exercises of the fullStackOpen course
+
