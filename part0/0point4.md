@@ -11,7 +11,7 @@
     server-->>browser: HTML Document
     deactivate server
 
-    Note right of server: data is form input (note: "muy bien y tu?")
+    Note right of browser: data is form input (note: "muy bien y tu?")
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
