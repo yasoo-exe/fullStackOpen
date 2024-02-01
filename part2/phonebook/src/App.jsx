@@ -4,6 +4,7 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: "ali", number: 88 }]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [query, setNewQuery] = useState("");
 
   const addContact = (event) => {
     event.preventDefault();
@@ -18,7 +19,11 @@ const App = () => {
     }
   };
 
-  const handleChange = (event) => {
+  const handleSearchChange = (event) => {
+    setNewQuery(event.target.value);
+  };
+
+  const handleDataChange = (event) => {
     event.target.id === "name"
       ? setNewName(event.target.value)
       : setNewNumber(event.target.value);
@@ -26,24 +31,37 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <label htmlFor="search">
+        search for a number:{" "}
+        <input
+          type="search"
+          name="search"
+          id="search"
+          value={query}
+          onChange={handleSearchChange}
+        />
+      </label>
+      <h2>Add a new number</h2>
       <form onSubmit={addContact}>
         <div>
           name:{" "}
           <input
-            onChange={handleChange}
+            onChange={handleDataChange}
             value={newName}
             id="name"
             type="text"
+            required
           />
         </div>
         <div>
           number:{" "}
           <input
-            onChange={handleChange}
+            onChange={handleDataChange}
             value={newNumber}
             id="number"
             type="number"
+            required
           />
         </div>
         <div>
@@ -52,11 +70,23 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => (
-          <li key={person.name}>
-            {person.name} {person.number}
-          </li>
-        ))}
+        {query === ""
+          ? persons.map((person) => (
+              <li key={person.name}>
+                {person.name} {person.number}
+              </li>
+            ))
+          : persons
+              .filter((x) => {
+                const regex = new RegExp(query, "gi");
+                const contactName = x.name;
+                return regex.test(contactName);
+              })
+              .map((x) => (
+                <li key={x.name}>
+                  {x.name} {x.number}
+                </li>
+              ))}
       </ul>
     </div>
   );
