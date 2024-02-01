@@ -1,7 +1,14 @@
 import { useState } from "react";
+import Search from "./components/Search";
+import Form from "./components/Form";
+import DisplayNumbers from "./components/DisplayNumbers";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "ali", number: 88 }]);
+  const [persons, setPersons] = useState([
+    { name: "ali", number: 88 },
+    { name: "yasir", number: 200 },
+    { name: "Zulkaif", number: 196 },
+  ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [query, setNewQuery] = useState("");
@@ -32,62 +39,16 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <label htmlFor="search">
-        search for a number:{" "}
-        <input
-          type="search"
-          name="search"
-          id="search"
-          value={query}
-          onChange={handleSearchChange}
-        />
-      </label>
+      <Search query={query} onSmash={handleSearchChange} />
       <h2>Add a new number</h2>
-      <form onSubmit={addContact}>
-        <div>
-          name:{" "}
-          <input
-            onChange={handleDataChange}
-            value={newName}
-            id="name"
-            type="text"
-            required
-          />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            onChange={handleDataChange}
-            value={newNumber}
-            id="number"
-            type="number"
-            required
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form
+        onEnter={addContact}
+        onType={handleDataChange}
+        newName={newName}
+        newNumber={newNumber}
+      />
       <h2>Numbers</h2>
-      <ul>
-        {query === ""
-          ? persons.map((person) => (
-              <li key={person.name}>
-                {person.name} {person.number}
-              </li>
-            ))
-          : persons
-              .filter((x) => {
-                const regex = new RegExp(query, "gi");
-                const contactName = x.name;
-                return regex.test(contactName);
-              })
-              .map((x) => (
-                <li key={x.name}>
-                  {x.name} {x.number}
-                </li>
-              ))}
-      </ul>
+      <DisplayNumbers query={query} persons={persons} />
     </div>
   );
 };
