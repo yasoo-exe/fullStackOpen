@@ -1,11 +1,6 @@
 import axios from "axios";
 
 const DisplayNumbers = ({ query, persons, deleteContact }) => {
-  // const deleteContact = (id) => {
-  //   console.log("works till here", id);
-  //   axios.delete(`http://localhost:3001/persons/${id}`).then((response) => {});
-  // };
-
   return (
     <ul>
       {query === ""

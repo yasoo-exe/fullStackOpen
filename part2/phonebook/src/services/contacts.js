@@ -12,4 +12,10 @@ const del = (id) => {
   return axios.delete(`${baseUrl}/${id}`).then((response) => response.data.id);
 };
 
-export default { getAll, create, del };
+const update = (changedPerson) => {
+  return axios
+    .put(`${baseUrl}/${changedPerson.id}`, changedPerson)
+    .then((response) => response.data);
+};
+
+export default { getAll, create, del, update };
