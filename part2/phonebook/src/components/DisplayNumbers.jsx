@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const DisplayNumbers = ({ query, persons, deleteContact }) => {
   return (
     <ul>
@@ -10,7 +8,7 @@ const DisplayNumbers = ({ query, persons, deleteContact }) => {
               <button
                 onClick={() => {
                   if (window.confirm(`Do you want to delete ${person.name}`)) {
-                    deleteContact(person.id);
+                    deleteContact(person);
                   }
                 }}
               >

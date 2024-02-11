@@ -1,0 +1,15 @@
+.success {
+  font-size: 30px;
+  color: green;
+  background-color: rgb(250, 250, 82);
+  margin: 10px 0;
+  border: 1px solid black;
+}
+
+.error {
+  font-size: 30px;
+  color: red;
+  background-color: lightcoral;
+  border: 1px solid black;
+  margin: 10px 0;
+}

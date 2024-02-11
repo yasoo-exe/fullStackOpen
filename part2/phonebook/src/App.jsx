@@ -3,13 +3,16 @@ import Search from "./components/Search";
 import Form from "./components/Form";
 import DisplayNumbers from "./components/DisplayNumbers";
 import contactService from "./services/contacts";
-import axios from "axios";
+import Message from "./components/Message";
+import "./index.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [query, setNewQuery] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageStyle, setMessageStyle] = useState("");
 
   //handle dynamic search/input-box change
   const handleSearchChange = (event) => {
@@ -50,6 +53,12 @@ const App = () => {
         setPersons(persons.concat([returnedContact]));
         setNewName("");
         setNewNumber("");
+        setMessage(`${returnedContact.name} added successfully!`);
+        setMessageStyle("success");
+        setTimeout(() => {
+          setMessage(null);
+          setMessageStyle(null);
+        }, 2000);
       });
     }
   };
@@ -64,19 +73,44 @@ const App = () => {
           person.id === returnedContact.id ? returnedContact : person
         )
       );
+      setMessage(
+        `${returnedContact.name}'s phone number updated successfully!`
+      );
+      setMessageStyle("success");
+      setTimeout(() => {
+        setMessage(null);
+        setMessageStyle(null);
+      }, 2000);
     });
   };
 
   //deletion
-  const deletion = (id) => {
-    contactService.del(id).then((deletedId) => {
-      setPersons(persons.filter((person) => person.id !== deletedId));
-    });
+  const deletion = (person) => {
+    contactService
+      .del(person)
+      .then((deletedPerson) => {
+        setPersons(persons.filter((person) => person.id !== deletedPerson.id));
+        setMessage(`${deletedPerson.name} has been deleted successfully!`);
+        setMessageStyle("success");
+        setTimeout(() => {
+          setMessageStyle(null);
+          setMessage(null);
+        }, 2000);
+      })
+      .catch((error) => {
+        setMessageStyle("error");
+        setMessage(`${person.name} has already been deleted!`);
+        setTimeout(() => {
+          setMessageStyle(null);
+          setMessage(null);
+        }, 2000);
+      });
   };
 
   return (
     <div>
       <h1>Phonebook</h1>
+      <Message message={message} messageStyle={messageStyle} />
       <Search query={query} onSmash={handleSearchChange} />
       <h2>Add a new number</h2>
       <Form

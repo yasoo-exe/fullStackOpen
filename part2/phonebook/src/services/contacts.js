@@ -8,8 +8,10 @@ const create = (noteObject) => {
   return axios.post(baseUrl, noteObject).then((response) => response.data);
 };
 
-const del = (id) => {
-  return axios.delete(`${baseUrl}/${id}`).then((response) => response.data.id);
+const del = (person) => {
+  return axios
+    .delete(`${baseUrl}/${person.id}`)
+    .then((response) => response.data);
 };
 
 const update = (changedPerson) => {
