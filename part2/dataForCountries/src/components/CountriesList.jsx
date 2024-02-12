@@ -1,31 +1,36 @@
+import { useLayoutEffect, useState } from "react";
 import "./CountriesList.css";
+import CountryDetails from "./CountryDetails";
 
-export default function CountriesList({ returnedCountries }) {
-  return returnedCountries.length > 10 ? (
-    <ul>
-      <li key={`excessiveMatches`}>Too many matches, kindly change filter</li>
-    </ul>
-  ) : returnedCountries.length === 1 ? (
-    <div>
-      <h1>{returnedCountries[0].name.common}</h1>
-      <img
-        src={returnedCountries[0].flags.svg}
-        alt="pakistaniflag"
-        style={{ maxWidth: 300, maxHeight: 300 }}
-      />
-      <h3>Capital: {returnedCountries[0].capital}</h3>
-      <h3>Area: {returnedCountries[0].area}</h3>
+export default function CountriesList({ countries }) {
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
+  if (countries.length > 10) {
+    return <p>Too many matches, specify another filter</p>;
+  }
+  if (countries.length === 1) {
+    return <CountryDetails country={countries[0]} />;
+  }
+  if (selectedCountry) {
+    return (
       <div>
-        <h3>Languages: </h3>
-        {Object.values(returnedCountries[0].languages).map((x) => (
-          <p>{x}</p>
-        ))}
+        <CountryDetails country={selectedCountry} />
+        <button onClick={() => setSelectedCountry(null)}>
+          Back to List Preview
+        </button>
       </div>
-    </div>
-  ) : (
+    );
+  }
+
+  return (
     <ul>
-      {returnedCountries.map((country) => (
-        <li key={country.id}>{country.name.common}</li>
+      {countries.map((country) => (
+        <li key={country.id}>
+          <span>{country.name.common}</span>
+          <button onClick={() => setSelectedCountry(country)}>
+            View Details
+          </button>
+        </li>
       ))}
     </ul>
   );

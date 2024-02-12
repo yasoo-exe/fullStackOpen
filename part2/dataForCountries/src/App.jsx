@@ -15,7 +15,9 @@ function App() {
   const getDataFromServer = (value) => {
     axios.get("http://localhost:3001/countries").then((response) => {
       const data = response.data.filter((country) => {
-        return country.name.common.toLowerCase().includes(value.toLowerCase());
+        return country.name.official
+          .toLowerCase()
+          .includes(value.toLowerCase());
       });
       setCountries(data);
     });
@@ -32,7 +34,7 @@ function App() {
           setValue(e.target.value);
         }}
       />
-      <CountriesList returnedCountries={countries} />
+      <CountriesList countries={countries} />
     </>
   );
 }
