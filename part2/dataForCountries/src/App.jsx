@@ -1,45 +1,27 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import CountriesList from "./components/CountriesList";
+import DisplayCountries from "./components/DisplayCountries";
+import { useState } from "react";
+import { getAllCountries } from "./services/countries";
 
-function App() {
-  const [value, setValue] = useState("");
-  const [countries, setCountries] = useState([]);
+const App = () => {
+  const [input, setInput] = useState("");
+  const [countries, setCountries] = useState(null);
 
-  useEffect(() => {
-    if (value) {
-      getDataFromServer(value);
-    }
-  }, [value]);
-
-  const getDataFromServer = (value) => {
-    axios.get("http://localhost:3001/countries").then((response) => {
-      const data = response.data.filter((country) => {
-        return country.name.official
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      });
-      setCountries(data);
-    });
+  const handleInput = (e) => {
+    setInput(e.target.value);
+    getAllCountries().then((response) => setCountries(response));
   };
 
   return (
     <>
-      <label htmlFor="search">enter query: </label>
-      <input
-        type="search"
-        id="search"
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-      />
-      <CountriesList countries={countries} />
+      <div>
+        <label htmlFor="search">search for a country: </label>
+        <input type="search" id="search" value={input} onChange={handleInput} />
+      </div>
+      <div>
+        <DisplayCountries countries={countries} value={input} />
+      </div>
     </>
   );
-}
+};
 
 export default App;
-
-/*what i need to do is use the useEffect hook to get all the data from the server on page load, once i have the data loaded and stored in a state, i can then filter through it depending
-on queries in the search bar and that will be much quicker since i'll have all of it stored*/
