@@ -1,9 +1,14 @@
 import axios from "axios";
 
 const getAllCountries = () => {
+  console.log("fetching data...");
   return axios
-    .get("http://localhost:3001/countries")
-    .then((response) => response.data);
+    .get("https://studies.cs.helsinki.fi/restcountries/api/all")
+    .then((response) => {
+      console.log("data fetched successfully!");
+      return response.data;
+    })
+    .catch((error) => console.error(error));
 };
 
 export { getAllCountries };
