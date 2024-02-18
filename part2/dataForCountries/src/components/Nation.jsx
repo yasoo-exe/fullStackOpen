@@ -1,8 +1,15 @@
-// Nation.jsx
-import React from "react";
+import { getWeather } from "../services/weather";
+import React, { useState, useEffect } from "react";
 
 const Nation = ({ country }) => {
-  console.log(Object.values(country.languages));
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    getWeather(country.latlng).then((response) => setWeather(response));
+  }, []);
+
+  console.log(weather);
+
   return (
     <div>
       <h2>{country.name.common}</h2>
@@ -23,6 +30,15 @@ const Nation = ({ country }) => {
           ))}
         </ul>
       </div>
+      {weather && (
+        <div>
+          <h2>Weather in {country.capital}</h2>
+          <img
+            src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+          />
+          <p>Temperature: {weather.main.temp} &deg;C </p>
+        </div>
+      )}
     </div>
   );
 };
