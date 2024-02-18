@@ -5,14 +5,14 @@ const Nation = ({ country }) => {
   const [weather, setWeather] = useState(null);
 
   useEffect(() => {
-    getWeather(country.latlng).then((response) => setWeather(response));
+    getWeather(country.latlng)
+      .then((response) => setWeather(response))
+      .catch((error) => console.log("an error has occurred, shit!", error));
   }, []);
-
-  console.log(weather);
 
   return (
     <div>
-      <h2>{country.name.common}</h2>
+      <h2 style={{ color: "yellow" }}>{country.name.common}</h2>
       <p>Official Name: {country.name.official}</p>
       <p>Capital: {country.capital}</p>
       <img
@@ -30,13 +30,22 @@ const Nation = ({ country }) => {
           ))}
         </ul>
       </div>
-      {weather && (
+      {weather ? (
         <div>
-          <h2>Weather in {country.capital}</h2>
+          <h2 style={{ color: "yellow" }}>Weather in {country.capital}</h2>
           <img
             src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
           />
           <p>Temperature: {weather.main.temp} &deg;C </p>
+        </div>
+      ) : (
+        <div>
+          <h2 style={{ color: "yellow" }}>Weather in {country.capital}</h2>
+          <p>
+            If you're seeing this message, it means that I've exceeded the quota
+            limit for my API calls and hence, the weather data is unavailable
+            for sometime
+          </p>
         </div>
       )}
     </div>
