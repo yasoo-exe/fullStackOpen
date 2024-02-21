@@ -56,6 +56,35 @@ app.delete("/api/phonebook/:id", (request, response) => {
   response.status(204).end();
 });
 
+//add contact
+app.post("/api/phonebook", (request, response) => {
+  const body = request.body;
+
+  if (!body.name) {
+    return response.status(400).json({
+      error: "name is missing!",
+    });
+  } else if (!body.number) {
+    return response.status(400).json({
+      error: "number is missing!",
+    });
+  } else if (
+    phonebook.filter((contact) => contact.name === body.name).length > 0
+  ) {
+    return response.status(400).json({
+      error: "the contact already exists",
+    });
+  } else {
+    const contact = {
+      id: Math.floor(Math.random() * 9999999999999),
+      name: body.name,
+      number: body.number,
+    };
+    phonebook.concat(contact);
+    return response.json(contact);
+  }
+});
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log("server is running");
