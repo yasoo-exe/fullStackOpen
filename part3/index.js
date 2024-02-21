@@ -25,15 +25,24 @@ const phonebook = [
   },
 ];
 
+//get whole phonebook
 app.get("/api/phonebook", (request, response) => {
   response.json(phonebook);
 });
 
+//get length of data at current time
 app.get("/info", (request, response) => {
   const dataToRetun = `<p>Phonebook contains ${
     phonebook.length
   } people</p> <p>${new Date()}</p>`;
   response.send(dataToRetun);
+});
+
+//get individual contact
+app.get("/api/phonebook/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const contact = phonebook.find((contact) => contact.id === id);
+  contact ? response.json(contact) : response.status(404).send("not found");
 });
 
 const PORT = 3001;
