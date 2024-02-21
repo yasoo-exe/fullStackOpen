@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-const phonebook = [
+let phonebook = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -42,7 +42,18 @@ app.get("/info", (request, response) => {
 app.get("/api/phonebook/:id", (request, response) => {
   const id = Number(request.params.id);
   const contact = phonebook.find((contact) => contact.id === id);
-  contact ? response.json(contact) : response.status(404).send("not found");
+  contact
+    ? response.json(contact)
+    : response
+        .status(404)
+        .send("<h1 style='color: red;'>Contact Not Found</h1>");
+});
+
+//delete individual contact
+app.delete("/api/phonebook/:id", (request, response) => {
+  const id = Number(request.params.id);
+  phonebook = phonebook.filter((contact) => contact.id !== id);
+  response.status(204).end();
 });
 
 const PORT = 3001;
