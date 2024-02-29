@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-let phonebook = [
+let persons = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -25,23 +25,23 @@ let phonebook = [
   },
 ];
 
-//get whole phonebook
-app.get("/api/phonebook", (request, response) => {
-  response.json(phonebook);
+//get whole persons
+app.get("/api/persons", (request, response) => {
+  response.json(persons);
 });
 
 //get length of data at current time
 app.get("/info", (request, response) => {
-  const dataToRetun = `<p>Phonebook contains ${
-    phonebook.length
+  const dataToRetun = `<p>persons contains ${
+    persons.length
   } people</p> <p>${new Date()}</p>`;
   response.send(dataToRetun);
 });
 
 //get individual contact
-app.get("/api/phonebook/:id", (request, response) => {
+app.get("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
-  const contact = phonebook.find((contact) => contact.id === id);
+  const contact = persons.find((contact) => contact.id === id);
   contact
     ? response.json(contact)
     : response
@@ -50,14 +50,14 @@ app.get("/api/phonebook/:id", (request, response) => {
 });
 
 //delete individual contact
-app.delete("/api/phonebook/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
-  phonebook = phonebook.filter((contact) => contact.id !== id);
+  persons = persons.filter((contact) => contact.id !== id);
   response.status(204).end();
 });
 
 //add contact
-app.post("/api/phonebook", (request, response) => {
+app.post("/api/persons", (request, response) => {
   const body = request.body;
 
   if (!body.name) {
@@ -69,7 +69,7 @@ app.post("/api/phonebook", (request, response) => {
       error: "number is missing!",
     });
   } else if (
-    phonebook.filter((contact) => contact.name === body.name).length > 0
+    persons.filter((contact) => contact.name === body.name).length > 0
   ) {
     return response.status(400).json({
       error: "the contact already exists",
@@ -80,7 +80,7 @@ app.post("/api/phonebook", (request, response) => {
       name: body.name,
       number: body.number,
     };
-    phonebook.concat(contact);
+    persons.concat(contact);
     return response.json(contact);
   }
 });
