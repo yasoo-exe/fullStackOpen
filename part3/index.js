@@ -8,7 +8,7 @@ morgan.token("req-body", (req) => {
   return req.method === "POST" && req.body ? JSON.stringify(req.body) : null;
 });
 
-// Use morgan middleware with the tiny format and the custom token for body of the POST request
+// Use morgan middleware with the tiny format and the custom token for printing the body of the POST request
 app.use(
   morgan(
     ":method :url :status :res[content-length] - :response-time ms :req-body",
