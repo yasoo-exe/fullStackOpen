@@ -4,7 +4,17 @@ const morgan = require("morgan");
 const app = express();
 app.use(express.json());
 
-app.use(morgan("tiny")); //morgan middleware to log messages to the console in tiny format
+morgan.token("req-body", (req) => {
+  return req.method === "POST" && req.body ? JSON.stringify(req.body) : null;
+});
+
+// Use morgan middleware with the tiny format and the custom token for body of the POST request
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :req-body",
+    { stream: process.stdout }
+  )
+);
 
 let persons = [
   {
