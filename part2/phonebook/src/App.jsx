@@ -34,22 +34,30 @@ const App = () => {
   //add contact
   const addContact = (event) => {
     event.preventDefault();
-    const contactObject = { name: newName, number: newNumber };
-    if (persons.find((x) => x.name === newName && x.number === newNumber)) {
+    const newObj = { name: newName, number: Number(newNumber) };
+    if (
+      persons.find(
+        (contact) =>
+          contact.name === newObj.name && contact.number === newObj.number
+      )
+    ) {
       alert(`${newName} is already added to phonebook!`);
     } else if (
-      persons.find((x) => x.name === newName && x.number !== newNumber)
+      persons.find(
+        (contact) =>
+          contact.name === newObj.name && contact.number !== newObj.number
+      )
     ) {
       if (window.confirm("replace the number with new one?")) {
         const personToUpdate = persons.find(
-          (x) => x.name === newName && x.number !== newNumber
+          (x) => x.name === newObj.name && x.number !== newObj.number
         );
         updateContact(personToUpdate);
       } else {
         return;
       }
     } else {
-      contactService.create(contactObject).then((returnedContact) => {
+      contactService.create(newObj).then((returnedContact) => {
         setPersons(persons.concat([returnedContact]));
         setNewName("");
         setNewNumber("");
@@ -65,7 +73,7 @@ const App = () => {
 
   //updating
   const updateContact = (person) => {
-    const changedPerson = { ...person, number: newNumber };
+    const changedPerson = { ...person, number: Number(newNumber) };
 
     contactService.update(changedPerson).then((returnedContact) => {
       setPersons(
@@ -97,7 +105,7 @@ const App = () => {
           setMessage(null);
         }, 2000);
       })
-      .catch((error) => {
+      .catch(() => {
         setMessageStyle("error");
         setMessage(`${person.name} has already been deleted!`);
         setTimeout(() => {
