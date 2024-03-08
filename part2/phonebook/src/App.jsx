@@ -57,17 +57,23 @@ const App = () => {
         return;
       }
     } else {
-      contactService.create(newObj).then((returnedContact) => {
-        setPersons(persons.concat([returnedContact]));
-        setNewName("");
-        setNewNumber("");
-        setMessage(`${returnedContact.name} added successfully!`);
-        setMessageStyle("success");
-        setTimeout(() => {
-          setMessage(null);
-          setMessageStyle(null);
-        }, 2000);
-      });
+      contactService
+        .create(newObj)
+        .then((returnedContact) => {
+          setPersons(persons.concat([returnedContact]));
+          setNewName("");
+          setNewNumber("");
+          setMessage(`${returnedContact.name} added successfully!`);
+          setMessageStyle("success");
+          setTimeout(() => {
+            setMessage(null);
+            setMessageStyle(null);
+          }, 2000);
+        })
+        .catch((error) => {
+          setMessageStyle("error");
+          setMessage(error.response.data.error);
+        });
     }
   };
 
@@ -75,21 +81,27 @@ const App = () => {
   const updateContact = (person) => {
     const changedPerson = { ...person, number: Number(newNumber) };
 
-    contactService.update(changedPerson).then((returnedContact) => {
-      setPersons(
-        persons.map((person) =>
-          person.id === returnedContact.id ? returnedContact : person
-        )
-      );
-      setMessage(
-        `${returnedContact.name}'s phone number updated successfully!`
-      );
-      setMessageStyle("success");
-      setTimeout(() => {
-        setMessage(null);
-        setMessageStyle(null);
-      }, 2000);
-    });
+    contactService
+      .update(changedPerson)
+      .then((returnedContact) => {
+        setPersons(
+          persons.map((person) =>
+            person.id === returnedContact.id ? returnedContact : person
+          )
+        );
+        setMessage(
+          `${returnedContact.name}'s phone number updated successfully!`
+        );
+        setMessageStyle("success");
+        setTimeout(() => {
+          setMessage(null);
+          setMessageStyle(null);
+        }, 2000);
+      })
+      .catch((error) => {
+        setMessageStyle("error");
+        setMessage(error.response.data.error);
+      });
   };
 
   //deletion
