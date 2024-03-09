@@ -17,7 +17,7 @@ const Form = ({ onEnter, onType, newName, newNumber }) => {
           onChange={onType}
           value={newNumber}
           id="number"
-          type="number"
+          type="text"
           required
         />
       </div>

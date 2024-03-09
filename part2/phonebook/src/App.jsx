@@ -34,7 +34,7 @@ const App = () => {
   //add contact
   const addContact = (event) => {
     event.preventDefault();
-    const newObj = { name: newName, number: Number(newNumber) };
+    const newObj = { name: newName, number: newNumber };
     if (
       persons.find(
         (contact) =>
@@ -79,7 +79,7 @@ const App = () => {
 
   //updating
   const updateContact = (person) => {
-    const changedPerson = { ...person, number: Number(newNumber) };
+    const changedPerson = { ...person, number: newNumber };
 
     contactService
       .update(changedPerson)
