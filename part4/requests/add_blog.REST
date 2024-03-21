@@ -4,6 +4,6 @@ Content-Type: application/json
 {
     "title": "frankenstein",
     "author": "mr x",
-    "url": "https://www.google.com/",
+    "url": "https://www.googie.com/",
     "likes": 123
 }
